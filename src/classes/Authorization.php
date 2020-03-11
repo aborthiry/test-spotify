@@ -8,9 +8,9 @@ use GuzzleHttp\Psr7;
 use Exception;
 
 /**
- * This class manage the authorization flows with spotify wep api (Client Credentials Flow).
- * Basically get a token from a client_id and client_secret
- * The access token allows make requests to the spotify Web API 
+ * Esta clase administra el flujo de autenticacion con spotify wep api (Client Credentials Flow).
+ * Basicamente obtiene un token desde un client_id and client_secret definido en el conf.php
+ * El token permite construir request con spotify Web API 
  */
 
 class Authorization
@@ -28,8 +28,9 @@ class Authorization
     }    
    
     /**
+     * Obtiene el token mediante la api de spotify
      * 
-     * @return string $access_token Return the necesary token to make request
+     * @return string $access_token 
      */
     
     public function getToken()

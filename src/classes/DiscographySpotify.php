@@ -15,11 +15,11 @@ class DiscographySpotify
 
 
     /**
-     * Converts array "album object" (Response Format Web API) in another array of items in espesific format 
+     * Conviente un arrelgo "album object" (Response Format Web API) en otro arreglo con el formato especificado
      *      
-     * @param array $albums The albun object (Web API spotify)   
+     * @param array $albums Album bject (Web API spotify)   
      * 
-     * @return array $discography The discography in the specified format     
+     * @return array $discography  Discography in the specified format     
      */
 
     public function albumsToArray($albums)
@@ -29,7 +29,7 @@ class DiscographySpotify
         foreach ($albums['items'] as $item) {
             $disc = array();
             $disc['name'] = $item['name'];
-            $disc['release'] = $item['release_date'];
+            $disc['released'] = $item['release_date'];
             $disc['tracks'] = $item['total_tracks'];
             foreach ($item['images'] as $image) {
                 if ($image['height'] == COVER_HEIGHT and $image['width'] == COVER_WIDTH) {
@@ -45,12 +45,12 @@ class DiscographySpotify
 
 
     /**
-     * Get the discography in the requested format (see comment below)
+     * Devuelve la discografia en el formato especificado (see comment below)
      * 
      * @param string $band_name Name of band to find
-     * @param string $access_token The token to access spotify services
+     * @param string $access_token Token to access spotify services
      * 
-     * @return array $discography The discography in the specified format
+     * @return array $discography Discography in the specified format
      */
 
 

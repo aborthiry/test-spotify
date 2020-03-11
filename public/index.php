@@ -2,7 +2,7 @@
 
 /**
  * Endpoint test-spotify  
- * Returns one or more albums from the Spotify catalog of specific band 
+ * Retorna los albunes de una banda dada (parametro q por GET)
  * 
  * @author Ariel Borthiry <arielborthiry@gmail.com>
  * @link https://github.com/aborthiry/test-spotify
@@ -30,7 +30,6 @@ $app->get('/api/v1/albums', function (Request $request, Response $response, arra
         return $response;
     }
     
-
     $auth = Authorization::getInstance();
     $ds = DiscographySpotify::getInstance();
 
@@ -44,7 +43,12 @@ $app->get('/api/v1/albums', function (Request $request, Response $response, arra
         return $response;
     }
      
-    return $response->getBody()->write(json_encode($discography));
+    $response->getBody()->write(json_encode($discography));
+    $newResponse = $response->withHeader(
+        'Access-Control-Allow-Origin','*'
+    );
+
+    return $newResponse;
 });
 
 
