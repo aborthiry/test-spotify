@@ -25,30 +25,27 @@ $app->get('/api/v1/albums', function (Request $request, Response $response, arra
     $band_name = $request->getQueryParam('q', $default = null);
     if ( is_null($band_name) or empty($band_name) ){
         $error = array("message" => 'Ops! The band name is required');
-        $response = new \Slim\Http\Response(500);
-        $response->getBody()->write(json_encode($error));
-        return $response;
+        $response = new \Slim\Http\Response(422);
+        return $response->getBody()->write(json_encode($error));
+      
     }
     
-    $auth = Authorization::getInstance();
-    $ds = DiscographySpotify::getInstance();
+    $token = Authorization::getToken();
+    $ds = new DiscographySpotify($band_name,$token);
 
-    try {
-        $access_token = $auth->getToken();
-        $discography = $ds->getDiscography($band_name,$access_token);
+    try {        
+        $discography = $ds->getDiscography();
     } catch (Exception $e) {
         $error = array("message" => $e->getMessage());
         $response = new \Slim\Http\Response($e->getCode());
-        $response->getBody()->write(json_encode($error));
-        return $response;
+        return $response->getBody()->write(json_encode($error));
+        
     }
      
-    $response->getBody()->write(json_encode($discography));
-    $newResponse = $response->withHeader(
-        'Access-Control-Allow-Origin','*'
-    );
+    return  $response->getBody()->write(json_encode($discography));
+    
 
-    return $newResponse;
+    
 });
 
 

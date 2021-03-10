@@ -11,8 +11,14 @@ use Exception;
 class DiscographySpotify
 {
 
-    private static $instance = null;
+    protected $band_name;
+    protected $token;
 
+    public function __construct($band_name,$token){
+        $this->band_name = $band_name;
+        $this->token = $token;
+
+    }
 
     /**
      * Conviente un arrelgo "album object" (Response Format Web API) en otro arreglo con el formato especificado
@@ -54,15 +60,15 @@ class DiscographySpotify
      */
 
 
-    public function getDiscography($band_name, $access_token)
+    public function getDiscography()
     {
         $client = new Client();
         try {
-            $response = $client->request('GET', 'https://api.spotify.com/v1/search?q=artist:"' . $band_name . '"&limit=' . SEARCH_LIMIT . '&type=' . SEARCH_TYPE, [
+            $response = $client->request('GET', 'https://api.spotify.com/v1/search?q=artist:"' . $this->band_name . '"&limit=' . SEARCH_LIMIT . '&type=' . SEARCH_TYPE, [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    'Authorization' => sprintf('Bearer %s', $access_token)
+                    'Authorization' => sprintf('Bearer %s', $this->token)
                 ]
             ]);
         } catch (ClientException $e) {
@@ -75,24 +81,9 @@ class DiscographySpotify
 
 
 
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    
 
-    final public function __clone()
-    {
-        throw new Exception('Feature disabled.');
-    }
-
-
-    final public function __wakeup()
-    {
-        throw new Exception('Feature disabled.');
-    }
+    
 
 
     /** Comment: format required

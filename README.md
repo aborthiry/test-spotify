@@ -1,4 +1,5 @@
 # test-spotify
 
-posicionarse en public y levantar el servcio
-Se puede usar php -S localhost:8000
+API para obtener una lista da albunes dado un nombre de banda.
+Consume la API de spotify 
+Desarrollado con SLIM + guzzlehttp

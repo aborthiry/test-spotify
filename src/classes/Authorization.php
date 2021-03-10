@@ -15,68 +15,55 @@ use Exception;
 
 class Authorization
 {
-    
-    private static $instance = null;    
 
-    private $access_token;
-    private $expires_token;
-    
-    
-    public function __construct()
-    {
-        $this->expires_token = time();
-    }    
    
+
+
+    protected function __construct()
+    {
+       
+    }
+
     /**
      * Obtiene el token mediante la api de spotify
      * 
      * @return string $access_token 
      */
-    
-    public function getToken()
+
+    static function getToken()
     {
-        if ($this->expires_token >= time()) {
-            $client = new Client();
-            try {
-                $response = $client->request('POST', 'https://accounts.spotify.com/api/token', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/x-www-form-urlencoded',
-                        'Authorization' => 'Basic '.base64_encode(CLIENTE_ID.':'.CLIENTE_SECRET)
-                    ],
-                    'form_params' => [
-                        'grant_type' => 'client_credentials',
-                    ]
-                ]);
-            } catch (RequestException $e) {               
-                throw new Exception(Psr7\str($e->getResponse()),$e->getCode());                
-            }
-            $obj = \GuzzleHttp\json_decode($response->getBody());
-            
-            $this->expires_token = time() + $obj->{'expires_in'};
-            $this->access_token = $obj->{'access_token'};                                    
+
+        $client = new Client();
+        try {
+            $response = $client->request('POST', 'https://accounts.spotify.com/api/token', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Authorization' => 'Basic ' . base64_encode(CLIENTE_ID . ':' . CLIENTE_SECRET)
+                ],
+                'form_params' => [
+                    'grant_type' => 'client_credentials',
+                ]
+            ]);
+        } catch (RequestException $e) {
+            throw new Exception(Psr7\str($e->getResponse()), $e->getCode());
         }
-        return $this->access_token;
+        $obj = \GuzzleHttp\json_decode($response->getBody());
+
+        
+        return $obj->{'access_token'};
+
+        
     }
 
-    
-    
-    
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-    
-    
+
+
     final public function __clone()
     {
         throw new Exception('Feature disabled.');
     }
 
-    
+
     final public function __wakeup()
     {
         throw new Exception('Feature disabled.');
