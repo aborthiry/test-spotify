@@ -16,9 +16,6 @@ use Exception;
 class Authorization
 {
 
-   
-
-
     protected function __construct()
     {
        
@@ -56,16 +53,4 @@ class Authorization
         
     }
 
-
-
-    final public function __clone()
-    {
-        throw new Exception('Feature disabled.');
-    }
-
-
-    final public function __wakeup()
-    {
-        throw new Exception('Feature disabled.');
-    }
 }

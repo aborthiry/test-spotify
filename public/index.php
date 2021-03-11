@@ -25,7 +25,7 @@ $app->get('/api/v1/albums', function (Request $request, Response $response, arra
     $band_name = $request->getQueryParam('q', $default = null);
     if ( is_null($band_name) or empty($band_name) ){
         $error = array("message" => 'Ops! The band name is required');
-        $response = new \Slim\Http\Response(422);
+        $response = new \Slim\Http\Response(400);
         return $response->getBody()->write(json_encode($error));
       
     }

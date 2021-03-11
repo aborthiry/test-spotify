@@ -7,6 +7,10 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
 use Exception;
 
+/**
+ * 
+ * 
+ */
 
 class DiscographySpotify
 {
@@ -53,8 +57,6 @@ class DiscographySpotify
     /**
      * Devuelve la discografia en el formato especificado (see comment below)
      * 
-     * @param string $band_name Name of band to find
-     * @param string $access_token Token to access spotify services
      * 
      * @return array $discography Discography in the specified format
      */
@@ -78,12 +80,6 @@ class DiscographySpotify
         $discography = $this->albumsToArray($contents['albums']);
         return $discography;
     }
-
-
-
-    
-
-    
 
 
     /** Comment: format required
